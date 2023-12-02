@@ -18,4 +18,3 @@ Javascript
 En version Desktop
 --------------------------------------
 ![Alt text](<assets/desktop.png>)
-tous droits reservés
