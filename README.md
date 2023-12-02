@@ -18,3 +18,5 @@ Javascript
 En version Desktop
 --------------------------------------
 ![Alt text](<assets/desktop.png>)
+ajout d'une nouvelle branche et switcher vers git checkout -b fonctionnelle
+git commit -m, et push via l'accés rapide
