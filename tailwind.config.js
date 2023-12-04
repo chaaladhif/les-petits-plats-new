@@ -23,6 +23,9 @@ module.exports = {
       screens: {
         'lg':'1440px',
     },
+    lineHeight: {
+      '12': '3rem',
+    }
   },
   plugins: [],
 }
