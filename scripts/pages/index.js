@@ -1,9 +1,6 @@
-//recuperer les données
 let  recipes = [];
-
 HomePage();
 async function HomePage(){
-  
       const recipesData = await fetchData();
       //console.log(recipesData);
     
@@ -14,32 +11,38 @@ async function HomePage(){
       const cardDom = cardModel.getCard();
       sectionContainer.appendChild(cardDom);
     });
-    
-    //return recipes;
   }
 async function loadAllRecipe(){
   recipes = await fetchData();
-  console.log(recipes);
-  //HomePage();
 }
 loadAllRecipe();
 function inputsListener(){
-    let searchInput = document.getElementById('searchInput');
-    searchInput.addEventListener('change', function(e){
-        e.preventDefault();
-        let inputvalue=searchInput.value;
-        sampleSearch(inputvalue)
-
-    })
+  const deleteSearch = document.getElementById('deleteSearch');
+  let searchInput = document.getElementById('searchInput');
+  searchInput.addEventListener('input', function (e) {
+      e.preventDefault();
+      let inputValue = searchInput.value;
+      if (inputValue.length >= 3) {
+          sampleSearch(inputValue);
+          deleteSearch.style.display = 'block';
+      } else {
+          // Si la longueur de la chaîne est inférieure à 3
+          deleteSearch.addEventListener('click', function () {
+            //vider le recherche
+            searchInput.value = '';
+            deleteSearch.style.display = 'none';
+          sampleSearch('')})
+          
+      }
+  });
 }
 inputsListener();
-
 function sampleSearch(searchString){
   // Convertir la chaîne de recherche en minuscules pour la comparaison insensible à la casse
   const searchLowerCase = searchString.toLowerCase();
   // Filtrer les recettes en fonction de la chaîne de recherche
   const filteredRecipes = recipes.filter(recipe => {
-    // Vérifier si la chaîne de recherche est présente dans le nom, la description ou la liste des ingrédients
+    // Vérifier si la chaîne de recherche est présente dans le titre, la description ou la liste des ingrédients
     return (
       recipe.name.toLowerCase().includes(searchLowerCase) ||
       recipe.description.toLowerCase().includes(searchLowerCase) ||
@@ -53,18 +56,21 @@ console.log(filteredRecipes);
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
   const sectionContainer = document.getElementById('sectionContainer');
   sectionContainer.innerHTML = '';
-
-  // Ajouter les nouvelles cartes filtrées
-  filteredRecipes.forEach(mediaItem => {
-    const cardModel = CardTemplate(mediaItem);
-    const cardDom = cardModel.getCard();
-    sectionContainer.appendChild(cardDom);
-  });
-
+  if (filteredRecipes.length === 0) {
+    // Aucune recette trouvée, afficher le message
+    const noResultsMessage = document.createElement('div');
+    noResultsMessage.classList.add('font-bold', 'text-xl');
+    noResultsMessage.innerHTML = `Aucune recette ne contient '${searchString}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
+    sectionContainer.appendChild(noResultsMessage);
+} else {
+    // Afficher les nouvelles cartes filtrées
+    filteredRecipes.forEach(mediaItem => {
+        const cardModel = CardTemplate(mediaItem);
+        const cardDom = cardModel.getCard();
+        sectionContainer.appendChild(cardDom);
+    });
 }
-
-
-
+}
 function updateTags(){
     // selon les nouveau recipe il faut qu'elle actualise lesvaleurs dans les tag ingredient /: ustensil et appareil.;
 }
