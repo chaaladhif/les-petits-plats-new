@@ -31,7 +31,7 @@
                 RECETTES
                 DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
             <input type="search" id="searchInput" aria-label="Search"
-                class="absolute top-1/2 w-3/6 h-14 font-light pl-6 rounded-lg" type="text"
+                class="absolute top-1/2 w-3/6 h-14 font-light pl-6 rounded-lg"
                 placeholder="Rechercher une recette, un ingrédient, ...">
             <div class="absolute top-1/2 flex items-center right-1/4 gap-4">
                 <i id="deleteSearch" class="fa-solid fa-xmark text-2xl text-grey cursor-pointer"
@@ -50,63 +50,65 @@
         <section aria-label="fitrer par" class="relative">
             <!--buttons dans js-->
             <div class="flex gap-4 absolute z-50">
-                <!--quand je fait un display:block pour le dropdown, je dois supprimer h-11 de div-->
-                <div class="rounded-xl bg-white rounded py-2 px-1 cursor-pointer w-48 h-fit dropdown">
+                <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
                         <button class="">Ingrédients</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
-                    <div id="myDropdown" style="display: none;" class="relative z-1 px-4 pb-4">
-                        <div class=" relative w-40 pb-4">
-                            <input type="text" id="myInput"
-                                class="py-2 px-1 font-light text-grey text-xm border border-solid border-grey z-10 w-40">
-                            <div class="absolute top-0 right-0 py-2 px-2 flex items-center gap-2 text-grey cursor-text">
+                    <div style="display: none;" class="relative z-1 myDropdown">
+                        <div class="relative w-40 pl-4 pb-4">
+                            <input type="text"
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                            <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
                             </div>
                         </div>
-                        <div class="max-h-50 overflow-hidden">
-                            <a class="block leading-8 font-light" href="#"></a>
+                        <div id="tags1" class="max-h-44 overflow-auto">
 
                         </div>
                     </div>
                 </div>
-                <div class=" rounded-xl bg-white rounded py-2 px-1 cursor-pointer w-48 h-fit dropdown">
+                <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
                         <button class="">Appareils</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
-                    <div id="myDropdown" style="display: none;" class="relative z-1 px-4 pb-4">
-                        <div class="relative w-40 pb-4">
-                            <input type="text" id="myInput"
-                                class="py-2 px-1  font-light text-grey text-xm border border-solid border-grey z-10 w-40">
-                            <div class="absolute top-0 right-0 py-2 px-2 flex items-center gap-2 text-grey cursor-text">
+                    <div style="display: none;" class="relative z-1 myDropdown">
+                        <div class="relative w-40 pl-4 pb-4">
+                            <input type="text"
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                            <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
                             </div>
                         </div>
-                        <a class="block leading-8 font-light" href="#"></a>
+                        <div id="tags2" class="max-h-44 overflow-auto">
+
+                        </div>
 
                     </div>
                 </div>
-                <div class=" rounded-xl bg-white rounded py-2 px-1 cursor-pointer w-48 h-fit dropdown">
+                <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
                         <button class="">Ustensils</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
-                    <div id="myDropdown" style="display: none;" class="relative z-1 px-4 pb-4">
-                        <div class="relative w-40 pb-4">
-                            <input type="text" id="myInput"
-                                class="py-2 px-1 font-light text-grey text-xm border border-solid border-grey z-10 w-40">
-                            <div class="absolute top-0 right-0 py-2 px-2 flex items-center gap-2 text-grey cursor-text">
+                    <div style="display: none;" class="relative z-1 myDropdown">
+                        <div class="relative w-40 pl-4 pb-4">
+                            <input type="text"
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                            <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
                             </div>
                         </div>
-                        <a class="block leading-8 font-light" href="#"></a>
+                        <div id="tags3" class="max-h-44 overflow-auto">
+
+                        </div>
 
                     </div>
                 </div>
@@ -116,6 +118,7 @@
 
         <!--cards de recette-->
         <section class="mt-20 pt-12 flex flex-wrap gap-8" id="sectionContainer">
+            <h2 style="display: none;">cards de recettes</h2>
             <!--card en js factory function-->
         </section>
 

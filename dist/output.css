@@ -725,6 +725,14 @@ video {
   margin-bottom: 1rem;
 }
 
+.-mr-8 {
+  margin-right: -2rem;
+}
+
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -743,14 +751,6 @@ video {
 
 .mt-20 {
   margin-top: 5rem;
-}
-
-.mb-6 {
-  margin-bottom: 1.5rem;
-}
-
-.-mr-8 {
-  margin-right: -2rem;
 }
 
 .box-border {
@@ -875,6 +875,26 @@ video {
 .h-fit {
   height: -moz-fit-content;
   height: fit-content;
+}
+
+.max-h-20 {
+  max-height: 5rem;
+}
+
+.max-h-32 {
+  max-height: 8rem;
+}
+
+.max-h-36 {
+  max-height: 9rem;
+}
+
+.max-h-40 {
+  max-height: 10rem;
+}
+
+.max-h-44 {
+  max-height: 11rem;
 }
 
 .w-1\/2 {
@@ -2074,6 +2094,10 @@ video {
   padding-bottom: 1rem;
 }
 
+.pl-4 {
+  padding-left: 1rem;
+}
+
 .pl-6 {
   padding-left: 1.5rem;
 }
@@ -2255,10 +2279,6 @@ video {
   line-height: 2.5rem;
 }
 
-.leading-12 {
-  line-height: 3rem;
-}
-
 .leading-8 {
   line-height: 2rem;
 }
@@ -2269,10 +2289,6 @@ video {
 
 .leading-snug {
   line-height: 1.375;
-}
-
-.leading-\[3rem\] {
-  line-height: 3rem;
 }
 
 .text-BlackLight {
@@ -2621,7 +2637,7 @@ video {
   content: var(--tw-content);
 }
 
-/*npx tailwindcss -i ./css/input.css -o ./dist/output.css --watch
+/*npx tailwindcss -i ./src/input.css -o ./dist/output.css --watch
 git branch fonctionnelle
 git checkout fonctionnelle
 git commit -m
