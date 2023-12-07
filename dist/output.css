@@ -877,22 +877,6 @@ video {
   height: fit-content;
 }
 
-.max-h-20 {
-  max-height: 5rem;
-}
-
-.max-h-32 {
-  max-height: 8rem;
-}
-
-.max-h-36 {
-  max-height: 9rem;
-}
-
-.max-h-40 {
-  max-height: 10rem;
-}
-
 .max-h-44 {
   max-height: 11rem;
 }
@@ -2045,11 +2029,6 @@ video {
   padding: 0.25rem;
 }
 
-.px-1 {
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
-}
-
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -2078,6 +2057,11 @@ video {
 .py-0\.5 {
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
 }
 
 .py-2 {
@@ -2178,6 +2162,11 @@ video {
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
+}
+
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 .text-lg {

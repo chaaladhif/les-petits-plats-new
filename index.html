@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Les petits plats, site de recettes de cuisine">
     <link rel="icon" type="image/png" href="assets/favicon.png">
-    <link href="/dist/output.css" rel="stylesheet">
+    <link href="/dist/output.css" type="text/css" rel="stylesheet">
     <script src="https://kit.fontawesome.com/427b58d00e.js" crossorigin="anonymous"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,7 +36,8 @@
             <div class="absolute top-1/2 flex items-center right-1/4 gap-4">
                 <i id="deleteSearch" class="fa-solid fa-xmark text-2xl text-grey cursor-pointer"
                     style="display: none;"></i>
-                <button type="button" class="h-11 w-12 mt-1.5 bg-black mr-2 rounded-md hover:bg-yellow">
+                <button aria-label="rechercher" type="button"
+                    class="h-11 w-12 mt-1.5 bg-black mr-2 rounded-md hover:bg-yellow">
                     <i class="fa-solid fa-magnifying-glass text-white text-2xl p-1 cursor-pointer"></i>
                 </button>
             </div>
@@ -52,7 +53,7 @@
             <div class="flex gap-4 absolute z-50">
                 <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
-                        <button class="">Ingrédients</button>
+                        <button aria-label="Filtrer par ingrédients" class="">Ingrédients</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
@@ -72,7 +73,7 @@
                 </div>
                 <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
-                        <button class="">Appareils</button>
+                        <button aria-label="Filtrer par Appareils" class="">Appareils</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
@@ -93,7 +94,7 @@
                 </div>
                 <div class="rounded-xl bg-white rounded py-2 cursor-pointer w-48 h-fit dropdown">
                     <div class="w-48 text-lg py-2 px-4 flex justify-between items-center filterButton">
-                        <button class="">Ustensils</button>
+                        <button aria-label="Filtrer par Ustensils" class="">Ustensils</button>
                         <i class="fa-solid fa-chevron-down"></i>
                         <i class="fa-solid fa-chevron-up" style="display:none;"></i>
                     </div>
@@ -113,7 +114,7 @@
                     </div>
                 </div>
             </div>
-            <p class="absolute top-0 right-0 font-normal font-sans text-sm"> recettes</p>
+            <p id="RecetteCount" class="absolute top-4 right-0 font-normal font-sans text-base"></p>
         </section>
 
         <!--cards de recette-->

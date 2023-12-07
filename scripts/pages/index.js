@@ -10,7 +10,8 @@ async function HomePage(){
       const cardDom = cardModel.getCard();
       sectionContainer.appendChild(cardDom);
     });
-    updateAllTags(recipesData)
+    updateAllTags(recipesData);
+    updateRecetteSomme(recipesData.length);
   }
 async function loadAllRecipes(){
   recipes = await fetchData();
@@ -30,8 +31,9 @@ function inputsListener(){
           deleteSearch.addEventListener('click', function () {
             searchInput.value = '';
             deleteSearch.style.display = 'none';
-          sampleSearch('')})
+          sampleSearch('')
           
+        })
       }
   });
 }
@@ -50,7 +52,6 @@ function sampleSearch(searchString){
           ingredient.ingredient.toLowerCase().includes(searchLowerCase)
       )
     );
-    
   });
 //console.log(filteredRecipes);
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
@@ -62,6 +63,8 @@ function sampleSearch(searchString){
     noResultasMessage.classList.add('font-bold', 'text-xl');
     noResultasMessage.innerHTML = `Aucune recette ne contient '${searchString}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
     sectionContainer.appendChild(noResultasMessage);
+    updateAllTags(filteredRecipes)
+    updateRecetteSomme(filteredRecipes.length);
 } else {
     // Afficher les nouvelles cartes filtrées
     filteredRecipes.forEach(mediaItem => {
@@ -70,16 +73,18 @@ function sampleSearch(searchString){
         sectionContainer.appendChild(cardDom);
     });
     updateAllTags(filteredRecipes)
+    updateRecetteSomme(filteredRecipes.length);
 }
-return filteredRecipes;
-
 }
 function updateAllTags(filteredRecipes) {
+  const tags1=document.getElementById('tags1');
+const tags2=document.getElementById('tags2');
+const tags3=document.getElementById('tags3');
   // Créer des tableaux pour les ingrédients, ustensiles et appareils uniques
   let allUstensils = [];
   let allAppareils = [];
   let allIngredients = [];
-
+  
   // Parcourir les recettes filtrées et ajouter les éléments uniques aux tableaux
   filteredRecipes.forEach(recipe => {
     // Ajouter les ustensiles sans doublons
@@ -88,12 +93,10 @@ function updateAllTags(filteredRecipes) {
         allUstensils.push(ustensil);
       }
     });
-
-    // Ajouter sans doublons
+    // Ajouter appliance sans doublons
     if (!allAppareils.includes(recipe.appliance)) {
       allAppareils.push(recipe.appliance);
     }
-
     // Ajouter les ingrédients sans doublons
     recipe.ingredients.forEach(ingredient => {
       const ingredientName = ingredient.ingredient;
@@ -105,10 +108,6 @@ function updateAllTags(filteredRecipes) {
  //console.log(allAppareils);
  // console.log(allUstensils);
  // console.log(allIngredients);
-
-const tags1=document.getElementById('tags1');
-const tags2=document.getElementById('tags2');
-const tags3=document.getElementById('tags3');
   // Effacer le contenu des balises <a>
   tags1.textContent = '';
   tags2.textContent = '';
@@ -116,28 +115,29 @@ const tags3=document.getElementById('tags3');
 // Ajouter les liens pour chaque ustensile
 allIngredients.forEach(ingredient => {
   let tagLink1=document.createElement('a')
-  tagLink1.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-0.5');
+  tagLink1.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1');
   tagLink1.href = '#'; 
   tagLink1.textContent = ingredient;
   tags1.appendChild(tagLink1);
 });
-
-
 // Ajouter les liens pour chaque appliance
 allAppareils.forEach(appliance => {
   let tagLink2 = document.createElement('a')
-  tagLink2.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-0.5');
+  tagLink2.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1');
   tagLink2.href = '#'; 
   tagLink2.textContent = appliance;
   tags2.appendChild(tagLink2); 
 });
-
 // Ajouter les liens pour chaque ustensile
 allUstensils.forEach(ustensil => {
   let tagLink3=document.createElement('a')
-  tagLink3.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-0.5');
+  tagLink3.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1');
   tagLink3.href = '#'; 
   tagLink3.textContent = ustensil;
   tags3.appendChild(tagLink3);
 });
+}
+function updateRecetteSomme(somme) {
+  const RecetteSomme = document.getElementById('RecetteCount');
+  RecetteSomme.textContent = `${somme} recette${somme !== 1 ? 's' : ''}`;
 }
