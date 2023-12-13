@@ -30,7 +30,8 @@
                 DE 1500
                 RECETTES
                 DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
-            <input type="search" id="searchInput" aria-label="Search"
+            <!--<form action="">-->
+            <input type="text" id="searchInput" aria-label="Search"
                 class="absolute top-1/2 w-3/6 h-14 font-light pl-6 rounded-lg"
                 placeholder="Rechercher une recette, un ingrédient, ...">
             <div class="absolute top-1/2 flex items-center right-1/4 gap-4">
@@ -60,7 +61,7 @@
                     <div style="display: none;" class="relative z-1 myDropdown">
                         <div class="relative w-40 pl-4 pb-4">
                             <input type="text"
-                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput-ingredients">
                             <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
@@ -80,7 +81,7 @@
                     <div style="display: none;" class="relative z-1 myDropdown">
                         <div class="relative w-40 pl-4 pb-4">
                             <input type="text"
-                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput-appareils">
                             <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
@@ -101,7 +102,7 @@
                     <div style="display: none;" class="relative z-1 myDropdown">
                         <div class="relative w-40 pl-4 pb-4">
                             <input type="text"
-                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput">
+                                class="py-2 font-light text-grey text-xm border border-solid border-grey z-10 w-40 myInput-ustensils">
                             <div class="absolute top-0 right-0 py-2 flex items-center gap-2 text-grey cursor-text">
                                 <i class="fa-solid fa-xmark text-s cursor-pointer" style="display: none;"></i>
                                 <i class="fa-solid fa-magnifying-glass p-1 cursor-pointer"></i>
@@ -116,9 +117,11 @@
             </div>
             <p id="RecetteCount" class="absolute top-4 right-0 font-normal font-sans text-base"></p>
         </section>
+        <section class="tag flex flex-wrap gap-8 mt-20">
 
+        </section>
         <!--cards de recette-->
-        <section class="mt-20 pt-12 flex flex-wrap gap-8" id="sectionContainer">
+        <section class="mt-12 pt-12 flex flex-wrap gap-8" id="sectionContainer">
             <h2 style="display: none;">cards de recettes</h2>
             <!--card en js factory function-->
         </section>

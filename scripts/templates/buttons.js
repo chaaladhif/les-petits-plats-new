@@ -17,5 +17,6 @@ function toggleDropdown() {
         });
     });
 }
+
 // Call the function to set up the event listeners for all filter buttons
 toggleDropdown();

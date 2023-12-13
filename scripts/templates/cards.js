@@ -72,7 +72,7 @@ function CardTemplate(data){
     
     const ingredientQuantity = document.createElement("p");
     ingredientQuantity.classList.add("text-BlackLight", "font-light", "text-sm", "leading-snug");
-    ingredientQuantity.textContent = `${ingredient.quantity} ${ingredient.unit || ''}`;
+    ingredientQuantity.textContent = ingredient.quantity ? `${ingredient.quantity} ${ingredient.unit || ''}` : '';
     ingredientDiv.appendChild(ingredientQuantity);
     });
 

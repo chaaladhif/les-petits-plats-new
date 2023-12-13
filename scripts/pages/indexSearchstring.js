@@ -28,7 +28,7 @@ function inputsListener(){
       
       if (inputValue.length >= 3) {
         let result = sampleSearch(inputValue);
-           displayRecipes(result,inputValue)
+           displayRecipes(result)
           
       } else {
           // vider la recherche
@@ -62,7 +62,9 @@ function sampleSearch(searchString){
   return filteredRecipes;
 }
 
-function displayRecipes(filteredRecipes,searchString){
+function displayRecipes(filteredRecipes){
+
+//console.log(filteredRecipes);
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
   const sectionContainer = document.getElementById('sectionContainer');
   sectionContainer.innerHTML = '';
@@ -132,7 +134,6 @@ function updateRecetteSomme(somme) {
     generateAndAppendTags(allAppareils, tags2);
     generateAndAppendTags(allUstensils, tags3);
   }
-// Génération et ajout des tags
 function generateAndAppendTags(listTags, container) {
   listTags.forEach(tag => {
     const tagDiv = document.createElement('div');
@@ -140,35 +141,29 @@ function generateAndAppendTags(listTags, container) {
     tagDiv.textContent = tag;
     container.appendChild(tagDiv);
   });
-
-  createTagEventListeners();
+  CreateTag();
 }
-
 // Créez une liste pour stocker les tags déjà créés
 const createdTags = [];
 
-// Ajout des écouteurs d'événements aux tags existants
-function createTagEventListeners() {
+function CreateTag() {
   const clickTags = document.getElementsByClassName('clickTag');
 
   for (const clickTag of clickTags) {
     clickTag.addEventListener('click', () => {
       const tagText = clickTag.textContent.trim();
 
-      // Ajouter le tag sous la recherche principale
-      createTagElement(tagText);
-      
-      // Mettre à jour les résultats de recherche
-      const result = sampleSearch(tagText);
-      displayRecipes(result, tagText);
-      
-      // Mettre à jour les éléments disponibles dans les champs de recherche avancée
-      updateAllTags(result);
+      // Vérifiez si le tag n'a pas déjà été créé
+      if (!createdTags.includes(tagText)) {
+        console.log('Tag cliqué :', tagText);
+        createTagElement(tagText);
+        // Ajoutez le tag à la liste des tags créés
+        createdTags.push(tagText);
+      }
     });
   }
 }
 
-// Création d'un élément de tag
 function createTagElement(tagText) {
   const tagSection = document.querySelector('.tag');
   const tagElement = document.createElement('div');
@@ -185,19 +180,4 @@ function createTagElement(tagText) {
   tagElement.appendChild(p);
   tagElement.appendChild(button);
   tagSection.appendChild(tagElement);
-
-  button.addEventListener('click', () => {
-    tagElement.style.display = 'none';
-  });
 }
-// Gestionnaire d'événement pour le champ d'ingrédients
-/*const ingredientsInput = document.querySelector('.myInput-ingredients');
-ingredientsInput.addEventListener('input', function (e) {
-  const inputValue = e.target.value;
-  const resultIngredients = sampleSearch(inputValue, 'ingredients');
-  // Mettez à jour l'affichage des tags d'ingrédients
-  generateAndAppendTags(resultIngredients, tags1, inputValue);
-  // Mettez à jour l'affichage ou effectuez d'autres opérations avec les résultats
-  displayRecipes(resultIngredients, inputValue);
-});*/
-
