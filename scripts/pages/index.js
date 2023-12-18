@@ -2,8 +2,7 @@ let  recipes = [];
 HomePage();
 async function HomePage(){
       const recipesData = await fetchData();
-      //console.log(recipesData);
-    //append la factory function pour afficher les cards: green
+    //append la factory function pour afficher les cards: green code
     const sectionContainer = document.getElementById('sectionContainer');
     recipesData.forEach(mediaItem => {
       const cardModel = CardTemplate(mediaItem); // Passez les données à la fonction CardTemplate
@@ -39,8 +38,9 @@ function inputsListener(){
   deleteSearch.addEventListener('click', function () {
     searchInput.value = '';
     deleteSearch.style.display = 'none'; 
-    displayRecipes(recipes)
+    displayRecipes(recipes);
 })
+
 }
 inputsListener();
 function sampleSearch(searchString){
@@ -81,7 +81,7 @@ function displayRecipes(filteredRecipes,searchString){
         sectionContainer.appendChild(cardDom);
     });
 }
-updateAllTags(filteredRecipes)
+//updateAllTags(filteredRecipes)
 updateRecetteSomme(filteredRecipes.length);
 }
 function updateRecetteSomme(somme) {
@@ -89,85 +89,58 @@ function updateRecetteSomme(somme) {
   RecetteSomme.textContent = `${somme} recette${somme !== 1 ? 's' : ''}`;
 }
 //form et button submit
-  function updateAllTags(filteredRecipes) {
-    // Récupérer les éléments des tags
-    const tags1 = document.getElementById('tags1');
-    const tags2 = document.getElementById('tags2');
-    const tags3 = document.getElementById('tags3');
-  
-    // Créer des sets pour les ingrédients, ustensiles et appareils
-    let uniqueUstensils = new Set();
-    let uniqueAppareils = new Set();
-    let uniqueIngredients = new Set();
-  
-    // Parcourir les recettes filtrées et ajouter les éléments uniques aux sets
-    filteredRecipes.forEach(recipe => {
-      // Ajouter les ustensiles sans doublons
-      recipe.ustensils.forEach(ustensil => {
-        uniqueUstensils.add(ustensil);
-      });
-  
-      // Ajouter appliance sans doublons
-      uniqueAppareils.add(recipe.appliance);
-  
-      // Ajouter les ingrédients sans doublons
-      recipe.ingredients.forEach(ingredient => {
-        const ingredientName = ingredient.ingredient;
-        uniqueIngredients.add(ingredientName);
-      });
+function updateAllTags(filteredRecipes) {
+  // Créer des sets pour les ingrédients, ustensiles et appareils
+  let allUstensils = new Set();
+  let allAppareils = new Set();
+  let allIngredients = new Set();
+
+  // Parcourir les recettes filtrées et ajouter les éléments uniques aux sets
+  filteredRecipes.forEach(recipe => {
+    // Ajouter les ustensiles sans doublons
+    recipe.ustensils.forEach(ustensil => {
+      allUstensils.add(ustensil.toLowerCase()); // Convertir en minuscules avant d'ajouter
     });
-  
-    // Convertir les sets en tableaux
-    const allUstensils = Array.from(uniqueUstensils);
-    const allAppareils = Array.from(uniqueAppareils);
-    const allIngredients = Array.from(uniqueIngredients);
-  
-    // Effacer le contenu des balises <a>
-    tags1.textContent = '';
-    tags2.textContent = '';
-    tags3.textContent = '';
-  
-    //  la génération des listes de tags: green code
-    generateAndAppendTags(allIngredients, tags1);
-    generateAndAppendTags(allAppareils, tags2);
-    generateAndAppendTags(allUstensils, tags3);
-  }
-// Génération et ajout des tags
-function generateAndAppendTags(listTags, container) {
-  listTags.forEach(tag => {
-    const tagDiv = document.createElement('div');
-    tagDiv.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1', 'clickTag');
-    tagDiv.textContent = tag;
-    container.appendChild(tagDiv);
+
+    // Ajouter appliance sans doublons
+    allAppareils.add(recipe.appliance.toLowerCase()); // Convertir en minuscules avant d'ajouter
+
+    // Ajouter les ingrédients sans doublons
+    recipe.ingredients.forEach(ingredient => {
+      const ingredientName = ingredient.ingredient.toLowerCase(); // Convertir en minuscules avant d'ajouter
+      allIngredients.add(ingredientName);
+    });
   });
 
-  createTagEventListeners();
+  //  la génération des listes de tags: green code
+  generateAndAppendTags(allIngredients, "ingredients");
+  generateAndAppendTags(allAppareils, "appareils");
+  generateAndAppendTags(allUstensils, "ustensils");
 }
-
-// Créez une liste pour stocker les tags déjà créés
-const createdTags = [];
-
-// Ajout des écouteurs d'événements aux tags existants
-function createTagEventListeners() {
-  const clickTags = document.getElementsByClassName('clickTag');
-
-  for (const clickTag of clickTags) {
-    clickTag.addEventListener('click', () => {
-      const tagText = clickTag.textContent.trim();
+// Génération et ajout des tags
+function generateAndAppendTags(listTags, elementDom) {
+    // Récupérer les éléments des tags
+    const container = document.getElementById(elementDom); 
+    container.textContent = '';
+  listTags.forEach(tag => {
+    const tagDiv = document.createElement('div');
+    tagDiv.setAttribute("data-tag", tag);
+    tagDiv.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1');
+    tagDiv.textContent = tag;
+    tagDiv.addEventListener('click', () => {
+      const tagText = tag.trim();
 
       // Ajouter le tag sous la recherche principale
       createTagElement(tagText);
-      
-      // Mettre à jour les résultats de recherche
+       // Mettre à jour les résultats de recherche
       const result = sampleSearch(tagText);
       displayRecipes(result, tagText);
-      
-      // Mettre à jour les éléments disponibles dans les champs de recherche avancée
-      updateAllTags(result);
+      document.querySelector('[data-tag="'+tagText+'"]').style.display='none';
     });
-  }
-}
+    container.appendChild(tagDiv);
+  });
 
+}
 // Création d'un élément de tag
 function createTagElement(tagText) {
   const tagSection = document.querySelector('.tag');
@@ -188,16 +161,55 @@ function createTagElement(tagText) {
 
   button.addEventListener('click', () => {
     tagElement.style.display = 'none';
+    document.querySelector('[data-tag="'+tagText+'"]').style.display='block';
+   
   });
 }
-// Gestionnaire d'événement pour le champ d'ingrédients
-/*const ingredientsInput = document.querySelector('.myInput-ingredients');
-ingredientsInput.addEventListener('input', function (e) {
-  const inputValue = e.target.value;
-  const resultIngredients = sampleSearch(inputValue, 'ingredients');
-  // Mettez à jour l'affichage des tags d'ingrédients
-  generateAndAppendTags(resultIngredients, tags1, inputValue);
-  // Mettez à jour l'affichage ou effectuez d'autres opérations avec les résultats
-  displayRecipes(resultIngredients, inputValue);
-});*/
+function setupDropdownListeners() {
+  const ingredientsInput = document.querySelector('.myInput-ingredients');
+  const appareilsInput = document.querySelector('.myInput-appareils');
+  const ustensilsInput = document.querySelector('.myInput-ustensils');
+
+  // Ajoutez des écouteurs d'événements aux champs de recherche des dropdowns
+  ingredientsInput.addEventListener('change', function (e) {
+    handleDropdownSearch(e, 'ingredients');
+  });
+
+  appareilsInput.addEventListener('change', function (e) {
+    handleDropdownSearch(e, 'appareils');
+  });
+
+  ustensilsInput.addEventListener('change', function (e) {
+    handleDropdownSearch(e, 'ustensils');
+  });
+}
+
+// Ajoutez cette fonction pour gérer la recherche dans les dropdowns
+function handleDropdownSearch(event, category) {
+  const inputValue = event.target.value.toLowerCase();
+  const dropdownContainer = document.getElementById(category);
+ const delet=document.querySelector('.delete');
+  if (inputValue.length > 0) {
+    // Filtrez les éléments du dropdown en fonction de la recherche
+    delet.style.display = 'block';
+    const filteredItems = Array.from(dropdownContainer.children).filter(item =>
+      item.textContent.toLowerCase().includes(inputValue)
+    );
+console.log(inputValue);
+    // Affichez les éléments filtrés et masquez les autres
+    dropdownContainer.innerHTML = '';
+    filteredItems.forEach(item => dropdownContainer.appendChild(item));
+  } else {
+    // Si la longueur de la recherche est inférieure à 0, réinitialisez le dropdown
+    //updateAllTags(filteredRecipes);
+    delet.style.display = 'none';
+  }
+  delet.addEventListener('click', function () {
+    event.target.value = '';
+    deleteSearch.style.display = 'none';
+    //updateAllTags(filteredRecipes);
+})
+}
+//appel de fonction pour configurer les écouteurs d'événements des dropdowns
+setupDropdownListeners();
 
