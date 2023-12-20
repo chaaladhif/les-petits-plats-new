@@ -28,7 +28,6 @@ function inputsListener(){
       if (inputValue.length >= 3) {
         let result = sampleSearch(inputValue);
            displayRecipes(result,inputValue)
-          
       } else {
           // vider la recherche
           displayRecipes(recipes)
@@ -46,25 +45,30 @@ inputsListener();
 function sampleSearch(searchString){
   // Convertir la chaîne de recherche en minuscules pour la comparaison insensible à la casse
   const searchLowerCase = searchString.toLowerCase();
+  console.log('Search string:', searchString);
   // Filtrer les recettes en fonction de la chaîne de recherche
   const filteredRecipes = recipes.filter(recipe => {
     // Vérifier si la chaîne de recherche est présente dans le titre, la description ou la liste des ingrédients
     return (
       recipe.name.toLowerCase().includes(searchLowerCase) ||
       recipe.description.toLowerCase().includes(searchLowerCase) ||
+      recipe.appliance.toLowerCase().includes(searchLowerCase) ||
       recipe.ingredients.some(
         ingredient =>
           ingredient.ingredient.toLowerCase().includes(searchLowerCase)
-      )
-    );
+      ) ||
+      recipe.ustensils.some(
+        ustensil => ustensil.toLowerCase().includes(searchLowerCase)
+      ))
   });
-
+  //console.log('Filtered recipes:', filteredRecipes);
   return filteredRecipes;
 }
-
 function displayRecipes(filteredRecipes,searchString){
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
   const sectionContainer = document.getElementById('sectionContainer');
+  console.log('Search string:', searchString);
+  console.log('Filtered recipes length:', filteredRecipes.length);
   sectionContainer.innerHTML = '';
   if (filteredRecipes.length === 0) {
     // Aucune recette trouvée, afficher le message
@@ -81,8 +85,9 @@ function displayRecipes(filteredRecipes,searchString){
         sectionContainer.appendChild(cardDom);
     });
 }
-//updateAllTags(filteredRecipes)
+updateAllTags(filteredRecipes)
 updateRecetteSomme(filteredRecipes.length);
+return filteredRecipes; // Ajoutez cette ligne pour retourner les recettes filtrées
 }
 function updateRecetteSomme(somme) {
   const RecetteSomme = document.getElementById('RecetteCount');
@@ -122,7 +127,7 @@ function generateAndAppendTags(listTags, elementDom) {
     // Récupérer les éléments des tags
     const container = document.getElementById(elementDom); 
     container.textContent = '';
-  listTags.forEach(tag => {
+    listTags.forEach(tag => {
     const tagDiv = document.createElement('div');
     tagDiv.setAttribute("data-tag", tag);
     tagDiv.classList.add('block', 'leading-8', 'font-light', 'hover:bg-yellow', 'pl-4', 'py-1');
@@ -134,8 +139,9 @@ function generateAndAppendTags(listTags, elementDom) {
       createTagElement(tagText);
        // Mettre à jour les résultats de recherche
       const result = sampleSearch(tagText);
-      displayRecipes(result, tagText);
-      document.querySelector('[data-tag="'+tagText+'"]').style.display='none';
+      //**************** quand je commente dislayRecipes l'erreur disparait******************************
+      displayRecipes(result);
+      //document.querySelector(`[data-tag="${tagText}"]`).style.display='none';
     });
     container.appendChild(tagDiv);
   });
@@ -143,6 +149,8 @@ function generateAndAppendTags(listTags, elementDom) {
 }
 // Création d'un élément de tag
 function createTagElement(tagText) {
+  console.log('Creating tag for:', tagText);
+
   const tagSection = document.querySelector('.tag');
   const tagElement = document.createElement('div');
   tagElement.classList.add('text-sm', 'font-normal', 'bg-yellow', 'mb-2', 'py-4', 'px-4', 'rounded-xl', 'flex', 'items-center', 'justify-between', 'gap-4');
@@ -160,11 +168,22 @@ function createTagElement(tagText) {
   tagSection.appendChild(tagElement);
 
   button.addEventListener('click', () => {
-    tagElement.style.display = 'none';
-    document.querySelector('[data-tag="'+tagText+'"]').style.display='block';
-   
+    tagElement.remove(); // Supprime le tag
+    //tagElement.style.display = 'none';
+    //document.querySelector(`[data-tag="${tagText}"]`).style.display='block';
+    //displayRecipes(recipes);
+    const result = sampleSearch(''); // Utilisez une chaîne vide comme argument
+    displayRecipes(result);
+
   });
+   // Ajout d'un gestionnaire d'événements pour cacher le tag dans les dropdowns
+   const dropdownTags = document.querySelectorAll(`[data-tag="${tagText}"]`);
+   dropdownTags.forEach(dropdownTag => {
+     dropdownTag.style.display = 'none';
+   });
+
 }
+//les listeners pour les dropdown search
 function setupDropdownListeners() {
   const ingredientsInput = document.querySelector('.myInput-ingredients');
   const appareilsInput = document.querySelector('.myInput-appareils');
@@ -172,42 +191,44 @@ function setupDropdownListeners() {
 
   // Ajoutez des écouteurs d'événements aux champs de recherche des dropdowns
   ingredientsInput.addEventListener('change', function (e) {
-    handleDropdownSearch(e, 'ingredients');
+    DropdownSearch(e, 'ingredients');
   });
 
   appareilsInput.addEventListener('change', function (e) {
-    handleDropdownSearch(e, 'appareils');
+    DropdownSearch(e, 'appareils');
   });
 
   ustensilsInput.addEventListener('change', function (e) {
-    handleDropdownSearch(e, 'ustensils');
+    DropdownSearch(e, 'ustensils');
   });
 }
 
-// Ajoutez cette fonction pour gérer la recherche dans les dropdowns
-function handleDropdownSearch(event, category) {
+// fonction pour gérer la recherche dans les dropdowns
+function DropdownSearch(event, category) {
   const inputValue = event.target.value.toLowerCase();
   const dropdownContainer = document.getElementById(category);
  const delet=document.querySelector('.delete');
   if (inputValue.length > 0) {
     // Filtrez les éléments du dropdown en fonction de la recherche
     delet.style.display = 'block';
+    const result = sampleSearch(inputValue);
+    displayRecipes(result);
     const filteredItems = Array.from(dropdownContainer.children).filter(item =>
       item.textContent.toLowerCase().includes(inputValue)
     );
-console.log(inputValue);
+    console.log(filteredItems);
     // Affichez les éléments filtrés et masquez les autres
     dropdownContainer.innerHTML = '';
     filteredItems.forEach(item => dropdownContainer.appendChild(item));
   } else {
-    // Si la longueur de la recherche est inférieure à 0, réinitialisez le dropdown
+    // Si la longueur de la recherche est inférieure à 0, réinitialiser le dropdown
     //updateAllTags(filteredRecipes);
     delet.style.display = 'none';
   }
   delet.addEventListener('click', function () {
     event.target.value = '';
-    deleteSearch.style.display = 'none';
-    //updateAllTags(filteredRecipes);
+    delet.style.display = 'none';
+
 })
 }
 //appel de fonction pour configurer les écouteurs d'événements des dropdowns
