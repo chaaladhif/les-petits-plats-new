@@ -30,20 +30,21 @@
                 DE 1500
                 RECETTES
                 DU QUOTIDIEN,SIMPLES ET DÉLICIEUSES</h1>
-            <!--<form action="">-->
-            <input type="text" id="searchInput" aria-label="Search"
-                class="absolute top-1/2 w-3/6 h-14 font-light pl-6 rounded-lg"
-                placeholder="Rechercher une recette, un ingrédient, ...">
-            <div class="absolute top-1/2 flex items-center right-1/4 gap-4">
-                <i id="deleteSearch" class="fa-solid fa-xmark text-2xl text-grey cursor-pointer"
-                    style="display: none;"></i>
-                <button aria-label="rechercher" type="button"
-                    class="h-11 w-12 mt-1.5 bg-black mr-2 rounded-md hover:bg-yellow">
-                    <i class="fa-solid fa-magnifying-glass text-white text-2xl p-1 cursor-pointer"></i>
-                </button>
-            </div>
+            <!--<form action="">--><!--action="" method="post"-->
+            <form action="#" method="get" class="absolute top-1/2 flex items-center justify-center w-9/12">
+                <input type="text" id="searchInput" aria-label="Search"
+                    class="w-9/12 h-16 w-70 font-light pl-6 rounded-lg"
+                    placeholder="Rechercher une recette, un ingrédient, ...">
+                <div class="absolute flex items-center right-36 gap-4">
+                    <i id="deleteSearch" class="fa-solid fa-xmark text-2xl text-grey cursor-pointer"
+                        style="display: none;"></i>
+                    <button aria-label="rechercher" type="button" class="h-12 w-14 bg-black rounded-md hover:bg-yellow">
+                        <i class="fa-solid fa-magnifying-glass text-white text-2xl p-1 cursor-pointer"></i>
+                    </button>
+                </div>
+            </form>
         </div>
-        <img class="object-cover" src="assets/banner.svg" alt="banner de la page">
+        <img class="object-cover" src="assets/banner.webp" alt="banner de la page">
     </header>
 
     <main class="bg-grey py-4 px-24">
@@ -121,10 +122,10 @@
             <p id="RecetteCount" class="absolute top-4 right-0 font-normal font-sans text-base"></p>
         </section>
         <section class="tag flex flex-wrap gap-8 mt-20">
-
+            <h2 style="display: none;">dropdowns</h2>
         </section>
         <!--cards de recette-->
-        <section class="mt-12 pt-12 flex flex-wrap gap-8" id="sectionContainer">
+        <section class="mt-12 flex flex-wrap gap-8" id="sectionContainer">
             <h2 style="display: none;">cards de recettes</h2>
             <!--card en js factory function-->
         </section>

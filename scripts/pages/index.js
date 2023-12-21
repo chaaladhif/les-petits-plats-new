@@ -18,13 +18,12 @@ async function loadAllRecipes(){
 loadAllRecipes();
 function inputsListener(){
   let searchInput = document.getElementById('searchInput');
-  searchInput.addEventListener('change', function (e) {
+  searchInput.addEventListener('input', function (e) {
       e.preventDefault();
       let inputValue = searchInput.value;
       if (inputValue.length > 0) {
         deleteSearch.style.display = 'block';
-    }
-      
+    } 
       if (inputValue.length >= 3) {
         let result = sampleSearch(inputValue);
            displayRecipes(result,inputValue)
@@ -39,13 +38,12 @@ function inputsListener(){
     deleteSearch.style.display = 'none'; 
     displayRecipes(recipes);
 })
-
 }
 inputsListener();
 function sampleSearch(searchString){
   // Convertir la chaîne de recherche en minuscules pour la comparaison insensible à la casse
   const searchLowerCase = searchString.toLowerCase();
-  console.log('Search string:', searchString);
+  //console.log('Search string:', searchString);
   // Filtrer les recettes en fonction de la chaîne de recherche
   const filteredRecipes = recipes.filter(recipe => {
     // Vérifier si la chaîne de recherche est présente dans le titre, la description ou la liste des ingrédients
@@ -67,8 +65,8 @@ function sampleSearch(searchString){
 function displayRecipes(filteredRecipes,searchString){
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
   const sectionContainer = document.getElementById('sectionContainer');
-  console.log('Search string:', searchString);
-  console.log('Filtered recipes length:', filteredRecipes.length);
+ // console.log('Search string:', searchString);
+ // console.log('Filtered recipes length:', filteredRecipes.length);
   sectionContainer.innerHTML = '';
   if (filteredRecipes.length === 0) {
     // Aucune recette trouvée, afficher le message
@@ -76,7 +74,6 @@ function displayRecipes(filteredRecipes,searchString){
     noResultasMessage.classList.add('font-bold', 'text-xl');
     noResultasMessage.innerHTML = `Aucune recette ne contient '${searchString}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
     sectionContainer.appendChild(noResultasMessage);
-  
 } else {
     // Afficher les nouvelles cartes filtrées
     filteredRecipes.forEach(mediaItem => {
@@ -99,14 +96,12 @@ function updateAllTags(filteredRecipes) {
   let allUstensils = new Set();
   let allAppareils = new Set();
   let allIngredients = new Set();
-
   // Parcourir les recettes filtrées et ajouter les éléments uniques aux sets
   filteredRecipes.forEach(recipe => {
     // Ajouter les ustensiles sans doublons
     recipe.ustensils.forEach(ustensil => {
       allUstensils.add(ustensil.toLowerCase()); // Convertir en minuscules avant d'ajouter
     });
-
     // Ajouter appliance sans doublons
     allAppareils.add(recipe.appliance.toLowerCase()); // Convertir en minuscules avant d'ajouter
 
@@ -116,7 +111,6 @@ function updateAllTags(filteredRecipes) {
       allIngredients.add(ingredientName);
     });
   });
-
   //  la génération des listes de tags: green code
   generateAndAppendTags(allIngredients, "ingredients");
   generateAndAppendTags(allAppareils, "appareils");
@@ -134,13 +128,12 @@ function generateAndAppendTags(listTags, elementDom) {
     tagDiv.textContent = tag;
     tagDiv.addEventListener('click', () => {
       const tagText = tag.trim();
-
       // Ajouter le tag sous la recherche principale
       createTagElement(tagText);
        // Mettre à jour les résultats de recherche
       const result = sampleSearch(tagText);
-      //**************** quand je commente dislayRecipes l'erreur disparait******************************
       displayRecipes(result);
+       document.querySelector(`[data-tag="${tagText}"]`).style.display='none';
       //document.querySelector(`[data-tag="${tagText}"]`).style.display='none';
     });
     container.appendChild(tagDiv);
@@ -149,7 +142,7 @@ function generateAndAppendTags(listTags, elementDom) {
 }
 // Création d'un élément de tag
 function createTagElement(tagText) {
-  console.log('Creating tag for:', tagText);
+  //console.log('Creating tag for:', tagText);
 
   const tagSection = document.querySelector('.tag');
   const tagElement = document.createElement('div');
@@ -168,20 +161,14 @@ function createTagElement(tagText) {
   tagSection.appendChild(tagElement);
 
   button.addEventListener('click', () => {
-    tagElement.remove(); // Supprime le tag
-    //tagElement.style.display = 'none';
-    //document.querySelector(`[data-tag="${tagText}"]`).style.display='block';
-    //displayRecipes(recipes);
+   // tagElement.remove(); // Supprime le tag
+   tagElement.style.display = 'none';
+   // document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';   
+   // document.querySelector(`[data-tag="${tagText}"]`).style.display='block';
     const result = sampleSearch(''); // Utilisez une chaîne vide comme argument
     displayRecipes(result);
 
   });
-   // Ajout d'un gestionnaire d'événements pour cacher le tag dans les dropdowns
-   const dropdownTags = document.querySelectorAll(`[data-tag="${tagText}"]`);
-   dropdownTags.forEach(dropdownTag => {
-     dropdownTag.style.display = 'none';
-   });
-
 }
 //les listeners pour les dropdown search
 function setupDropdownListeners() {
@@ -216,7 +203,7 @@ function DropdownSearch(event, category) {
     const filteredItems = Array.from(dropdownContainer.children).filter(item =>
       item.textContent.toLowerCase().includes(inputValue)
     );
-    console.log(filteredItems);
+    //console.log(filteredItems);
     // Affichez les éléments filtrés et masquez les autres
     dropdownContainer.innerHTML = '';
     filteredItems.forEach(item => dropdownContainer.appendChild(item));

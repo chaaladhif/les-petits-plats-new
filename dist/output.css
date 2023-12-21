@@ -671,6 +671,14 @@ video {
   top: 13rem;
 }
 
+.right-32 {
+  right: 8rem;
+}
+
+.right-36 {
+  right: 9rem;
+}
+
 .isolate {
   isolation: isolate;
 }
@@ -885,6 +893,14 @@ video {
   height: fit-content;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
+.h-12 {
+  height: 3rem;
+}
+
 .max-h-44 {
   max-height: 11rem;
 }
@@ -919,6 +935,14 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-9\/12 {
+  width: 75%;
+}
+
+.w-14 {
+  width: 3.5rem;
 }
 
 .max-w-screen-lg {
