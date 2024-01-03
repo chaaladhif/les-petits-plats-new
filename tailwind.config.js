@@ -7,6 +7,7 @@ module.exports = {
       'white':'#ffffff',
       'yellow':'#FFD15B',
       'grey':'#D3D3D3',
+      'gray':'#8a817c',
       'BlackLight':'#A9A9A9',
     },
     backgroundImage: {
@@ -23,6 +24,9 @@ module.exports = {
       screens: {
         'lg':'1440px',
     },
+    lineHeight: {
+      '12': '3rem',
+    }
   },
   plugins: [],
 }
