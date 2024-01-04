@@ -12,8 +12,8 @@ async function HomePage(){
     //append la factory function pour afficher les cards: green code
     const sectionContainer = document.getElementById('sectionContainer');
     for (let i = 0; i < recipes.length; i++) {
-      const cardModel = CardTemplate(recipes[i]);
-      const cardDom = cardModel.getCard();
+      const recipeModel = CardTemplate(recipes[i]);
+      const cardDom = recipeModel.getCard();
       sectionContainer.appendChild(cardDom);
     }
     updateAllTags(recipes);
@@ -154,7 +154,9 @@ async function HomePage(){
         filteredRecipes.push(recipe);
       }
     }
-  
+   /* console.log(listTagIng);
+  console.log(listTagApp);
+  console.log(listTagUst);*/
     return filteredRecipes;
   } 
   function displayRecipes(filteredRecipes,searchString){
@@ -170,8 +172,8 @@ async function HomePage(){
   } else {
      // Afficher les nouvelles cartes filtrées
      for (let i = 0; i < filteredRecipes.length; i++) {
-      const cardModel = CardTemplate(filteredRecipes[i]);
-      const cardDom = cardModel.getCard();
+      const recipeModel = CardTemplate(filteredRecipes[i]);
+      const cardDom = recipeModel.getCard();
       sectionContainer.appendChild(cardDom);
     }
   }
@@ -265,9 +267,6 @@ async function HomePage(){
       if (index !== -1) {
         tagList.splice(index, 1);
       }
-  console.log(listTagIng);
-  console.log(listTagApp);
-  console.log(listTagUst);
   listRecipes = recipes;
       // Lancer la recherche simple et avancée
       //lancer une recherche simple 
@@ -279,7 +278,7 @@ async function HomePage(){
       listRecipes = advancedSearch(listTagIng, listTagUst, listTagApp);
     }
       displayRecipes(listRecipes);
-      console.log(listRecipes);
+      //console.log(listRecipes);
   
     });
     // Ajout du tag à la liste appropriée en fonction du type
