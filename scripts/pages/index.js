@@ -1,4 +1,4 @@
- let  recipes = [];
+let  recipes = [];
 let  filtredRecipes = [];
 let listRecipes =[];
 //let listRecipes=[];
@@ -6,7 +6,7 @@ let listRecipes =[];
 let listTagIng=[];
 let listTagApp=[];
 let listTagUst= [];
- 
+//recuperer les recettes
 HomePage();
 async function HomePage(){
       recipes = await fetchData();
@@ -62,7 +62,6 @@ inputsListener();
 function sampleSearch(searchString){
   // Convertir la chaîne de recherche en minuscules pour la comparaison insensible à la casse
   const searchLowerCase = searchString.toLowerCase();
-  //console.log('Search string:', searchString);
   // Filtrer les recettes en fonction de la chaîne de recherche
   const filteredRecipes = listRecipes.filter(recipe => {
     // Vérifier si la c haîne de recherche est présente dans le titre, la description ou la liste des ingrédients
@@ -82,7 +81,8 @@ function advancedSearch(listTagIng, listTagUst, listTagApp){
     //indique si tous les ingrédients spécifiés dans listTagIng sont présents dans la recette.
     //La fonction every retourne true si tous les éléments de l'array vérifient la condition spécifiée.
     const ingredientsMatch = listTagIng.every(element =>
-      recipe.ingredients.some(ingredient =>
+      recipe.ingredients.some(
+        ingredient =>
           ingredient.ingredient.toLowerCase().includes(element.toLowerCase())
       )
   );
@@ -95,18 +95,14 @@ function advancedSearch(listTagIng, listTagUst, listTagApp){
 
   return ingredientsMatch && ustensilsMatch && appareilsMatch;
 });
-
   return filtredRecipes;
 }
-
 function displayRecipes(filteredRecipes,searchString){
   // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
   const sectionContainer = document.getElementById('sectionContainer');
- // console.log('Search string:', searchString);
- // console.log('Filtered recipes length:', filteredRecipes.length);
   sectionContainer.innerHTML = '';
   if (filteredRecipes.length === 0) {
-    // Aucune recette trouvée, afficher le message
+    // si Aucune recette trouvée, afficher le message
     const noResultasMessage = document.createElement('div');
     noResultasMessage.classList.add('font-bold', 'text-xl');
     noResultasMessage.innerHTML = `Aucune recette ne contient '${searchString}'. Vous pouvez chercher "tarte aux pommes", "poisson", etc.`;
@@ -127,7 +123,7 @@ function updateRecetteSomme(somme) {
   const RecetteSomme = document.getElementById('RecetteCount');
   RecetteSomme.textContent = `${somme} recette${somme !== 1 ? 's' : ''}`;
 }
-//form et button submit
+//recuperer les elements dans la liste
 function updateAllTags(filteredRecipes) {
   // Créer des sets pour les ingrédients, ustensiles et appareils
   let allUstensils = new Set();
@@ -198,20 +194,15 @@ function createTagElement(tagText, tagList) {
   tagElement.appendChild(p);
   tagElement.appendChild(button);
   tagSection.appendChild(tagElement);
-
   button.addEventListener('click', () => {
     tagElement.style.display = 'none';
     document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';
-
     // Suppression du tag de la liste
     const index = tagList.indexOf(tagText);
     if (index !== -1) {
       tagList.splice(index, 1);
     }
-console.log(listTagIng);
-console.log(listTagApp);
-console.log(listTagUst);
-listRecipes = recipes;
+  listRecipes = recipes;
     // Lancer la recherche simple et avancée
     //lancer une recherche simple 
   // Si la liste des tags est vide, lancer la recherche simple
@@ -234,12 +225,10 @@ function setupDropdownListeners() {
   const ingredientsInput = document.querySelector('.myInput-ingredients');
   const appareilsInput = document.querySelector('.myInput-appareils');
   const ustensilsInput = document.querySelector('.myInput-ustensils');
-
   // Ajoutez des écouteurs d'événements aux champs de recherche des dropdowns
   ingredientsInput.addEventListener('input', function (e) {
     DropdownSearch(e, 'ingredients', listTagIng);
   });
-
   appareilsInput.addEventListener('input', function (e) {
     DropdownSearch(e, 'appareils', listTagApp);
   });
@@ -249,7 +238,6 @@ function setupDropdownListeners() {
   });
 }
   const delet = document.querySelector('.delete');
-
 //effacer pour les dropdown search
 function resetInput() {
   const ingredientsInput = document.querySelector('.myInput-ingredients');
@@ -264,7 +252,6 @@ function resetInput() {
 function DropdownSearch(event, category) {
   const inputValue = event.target.value.toLowerCase();
   const dropdownContainer = document.getElementById(category);
-
   if (inputValue.length > 0) {
     delet.style.display = 'block';
     const filteredItems = Array.from(dropdownContainer.children).filter(item =>
@@ -282,7 +269,6 @@ function DropdownSearch(event, category) {
   } else {
     delet.style.display = 'none';
   }
-
   delet.addEventListener('click', function () {
     event.target.value = '';
     delet.style.display = 'none';
