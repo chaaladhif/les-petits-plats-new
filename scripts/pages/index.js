@@ -1,5 +1,5 @@
-let  recipes = [];
-let  filtredRecipes = [];
+let recipes = [];
+let filtredRecipes = [];
 let listRecipes =[];
 //declarer les listes des tags
 let listTagIng=[];
@@ -47,51 +47,23 @@ async function HomePage(){
   function sampleSearch(searchString) {
     const filteredRecipes = [];
     const lowersearchString = searchString.toLowerCase();
-  
     for (let i = 0; i < recipes.length; i++) {
       const recipe = recipes[i];
       const title = recipe.name.toLowerCase();
       const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).join(' ');
       const description = recipe.description.toLowerCase();
   
-      // Vérifier si le titre contient le texte de recherche
-      let titleMatch = false;
-      for (let j = 0; j < title.length-1; j++) {
-        if (title.substring(j, j + lowersearchString.length) === lowersearchString) {
-          titleMatch = true;
-          break;
-        }
-      }
-  
-      // Vérifier si les ingrédients contiennent le texte de recherche
-      let ingredientsMatch = false;
-      for (let j = 0; j < ingredients.length-1; j++) {
-        if (ingredients.substring(j, j + lowersearchString.length) === lowersearchString) {
-          ingredientsMatch = true;
-          break;
-        }
-      }
-  
-      // Vérifier si la description contient le texte de recherche
-      let descriptionMatch = false;
-      for (let j = 0; j < description.length-1; j++) {
-        if (description.substring(j, j + lowersearchString.length) === lowersearchString) {
-          descriptionMatch = true;
-          break;
-        }
-      }
-  
-      // Ajouter la recette aux résultats si elle correspond à la recherche
-      if (titleMatch || ingredientsMatch || descriptionMatch) {
+      if (title.includes(lowersearchString.toLowerCase()) ||
+       ingredients.includes(lowersearchString.toLowerCase()) || 
+       description.includes(lowersearchString.toLowerCase())) {
         filteredRecipes.push(recipe);
       }
     }
-  
+
     return filteredRecipes;
   }
-
   function advancedSearch(listTagIng, listTagUst, listTagApp) {
-    const filteredRecipes = [];
+    const filtredRecipes = [];
   
     for (let i = 0; i < listRecipes.length; i++) {
       const recipe = listRecipes[i];
@@ -103,14 +75,7 @@ async function HomePage(){
         let ingredientFound = false;
         for (let j = 0; j < recipe.ingredients.length; j++) {
           const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
-          let match = true;
-          for (let l = 0; l < element.length; l++) {
-            if (ingredient[l] !== element[l]) {
-              match = false;
-              break;
-            }
-          }
-          if (match) {
+          if (ingredient.includes(element.toLowerCase())) {
             ingredientFound = true;
             break;
           }
@@ -128,14 +93,7 @@ async function HomePage(){
         let ustensilFound = false;
         for (let j = 0; j < recipe.ustensils.length; j++) {
           const ustensil = recipe.ustensils[j].toLowerCase();
-          let match = true;
-          for (let l = 0; l < element.length; l++) {
-            if (ustensil[l] !== element[l]) {
-              match = false;
-              break;
-            }
-          }
-          if (match) {
+          if (ustensil.includes(element.toLowerCase())) {
             ustensilFound = true;
             break;
           }
@@ -151,14 +109,12 @@ async function HomePage(){
   
       // Ajouter la recette aux résultats si elle correspond à la recherche
       if (ingredientsMatch && ustensilsMatch && appareilsMatch) {
-        filteredRecipes.push(recipe);
+        filtredRecipes.push(recipe);
       }
     }
-   /* console.log(listTagIng);
-  console.log(listTagApp);
-  console.log(listTagUst);*/
-    return filteredRecipes;
-  } 
+  
+    return filtredRecipes;
+  }
   function displayRecipes(filteredRecipes,searchString){
     // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
     const sectionContainer = document.getElementById('sectionContainer');
