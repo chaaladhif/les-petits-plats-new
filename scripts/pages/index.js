@@ -52,9 +52,10 @@ async function HomePage(){
       const title = recipe.name.toLowerCase();
       const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).join(' ');
       const description = recipe.description.toLowerCase();
-  
+  //includes sur chaine de caractere ne touche pas mais includes sur ingredients c'est une liste
       if (title.includes(lowersearchString.toLowerCase()) ||
-       ingredients.includes(lowersearchString.toLowerCase()) || 
+       //ingredients.includes(lowersearchString.toLowerCase()) || 
+       includesNative(ingredients,lowersearchString.toLowerCase())|| 
        description.includes(lowersearchString.toLowerCase())) {
         filteredRecipes.push(recipe);
       }
@@ -62,6 +63,16 @@ async function HomePage(){
 
     return filteredRecipes;
   }
+  //chaque includes j'appelle fonction
+  function includesNative(tableau,string){
+   for (let index = 0; index < tableau.length; index++) {
+    const element = tableau[index];
+   if(element==string){
+    return true;
+   }
+   }
+   return false;
+   }
   function advancedSearch(listTagIng, listTagUst, listTagApp) {
     const filtredRecipes = [];
   
