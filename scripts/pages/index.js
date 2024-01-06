@@ -44,6 +44,35 @@ async function HomePage(){
   })
   }
   inputsListener();
+    //Fonction pour remplacer
+    function includesNative(tableau,string){
+      for (let index = 0; index < tableau.length; index++) {
+       const element = tableau[index];
+      if(element==string){
+       return true;
+      }
+      }
+      return false;
+      }
+       // Fonction pour remplacer some
+   function someNative(tableau, callback) {
+     for (let i = 0; i < tableau.length; i++) {
+       if (callback(tableau[i], i, tableau)) {
+         return true;
+       }
+     }
+     return false;
+   }
+   
+   // Fonction pour remplacer every
+   function everyNative(tableau, callback) {
+     for (let i = 0; i < tableau.length; i++) {
+       if (!callback(tableau[i], i, tableau)) {
+         return false;
+       }
+     }
+     return true;
+   }
   function sampleSearch(searchString) {
     const filteredRecipes = [];
     const lowersearchString = searchString.toLowerCase();
@@ -63,69 +92,34 @@ async function HomePage(){
 
     return filteredRecipes;
   }
-  //chaque includes j'appelle fonction
-  function includesNative(tableau,string){
-   for (let index = 0; index < tableau.length; index++) {
-    const element = tableau[index];
-   if(element==string){
-    return true;
-   }
-   }
-   return false;
-   }
-  function advancedSearch(listTagIng, listTagUst, listTagApp) {
-    const filtredRecipes = [];
-  
-    for (let i = 0; i < listRecipes.length; i++) {
-      const recipe = listRecipes[i];
-  
-      // Vérifier les ingrédients
-      let ingredientsMatch = true;
-      for (let k = 0; k < listTagIng.length; k++) {
-        const element = listTagIng[k];
-        let ingredientFound = false;
-        for (let j = 0; j < recipe.ingredients.length; j++) {
-          const ingredient = recipe.ingredients[j].ingredient.toLowerCase();
-          if (ingredient.includes(element.toLowerCase())) {
-            ingredientFound = true;
-            break;
-          }
-        }
-        if (!ingredientFound) {
-          ingredientsMatch = false;
-          break;
-        }
-      }
-  
-      // Vérifier les ustensiles
-      let ustensilsMatch = true;
-      for (let k = 0; k < listTagUst.length; k++) {
-        const element = listTagUst[k];
-        let ustensilFound = false;
-        for (let j = 0; j < recipe.ustensils.length; j++) {
-          const ustensil = recipe.ustensils[j].toLowerCase();
-          if (ustensil.includes(element.toLowerCase())) {
-            ustensilFound = true;
-            break;
-          }
-        }
-        if (!ustensilFound) {
-          ustensilsMatch = false;
-          break;
-        }
-      }
-  
-      // Vérifier l'appareil
-      const appareilsMatch = recipe.appliance.toLowerCase().includes(listTagApp);
-  
-      // Ajouter la recette aux résultats si elle correspond à la recherche
-      if (ingredientsMatch && ustensilsMatch && appareilsMatch) {
-        filtredRecipes.push(recipe);
-      }
+
+// Fonction advancedSearch utilisant someNative et everyNative
+function advancedSearch(listTagIng, listTagUst, listTagApp) {
+
+  for (let i = 0; i < listRecipes.length; i++) {
+    const recipe = listRecipes[i];
+    
+    const ingredientsMatch = everyNative(listTagIng, element =>
+      someNative(recipe.ingredients, ingredient =>
+        includesNative(ingredient.ingredient.toLowerCase(), element.toLowerCase())
+      )
+    );
+    
+    const ustensilsMatch = everyNative(listTagUst, element =>
+      someNative(recipe.ustensils, ustensil =>
+        ustensil.toLowerCase().includes(element.toLowerCase())
+      )
+    );
+    
+    const appareilsMatch = recipe.appliance.toLowerCase().includes(listTagApp);
+    // Ajouter la recette aux résultats si elle correspond à la recherche
+    if (ingredientsMatch && ustensilsMatch && appareilsMatch) {
+      filtredRecipes.push(recipe);
     }
-  
-    return filtredRecipes;
   }
+
+  return filtredRecipes;
+}
   function displayRecipes(filteredRecipes,searchString){
     // Effacer la sectionContainer avant d'ajouter les nouvelles cartes
     const sectionContainer = document.getElementById('sectionContainer');
@@ -161,7 +155,11 @@ async function HomePage(){
     // Parcourir les recettes filtrées et ajouter les éléments uniques aux sets
     for (let i = 0; i < filteredRecipes.length; i++) {
       const recipe = filteredRecipes[i];
-  
+  // Ajouter les ingrédients sans doublons
+  for (let j = 0; j < recipe.ingredients.length; j++) {
+    const ingredientName = recipe.ingredients[j].ingredient.toLowerCase();
+    allIngredients.add(ingredientName);
+  }
       // Ajouter les ustensiles sans doublons
       for (let j = 0; j < recipe.ustensils.length; j++) {
         const ustensil = recipe.ustensils[j].toLowerCase();
@@ -172,11 +170,7 @@ async function HomePage(){
       const appliance = recipe.appliance.toLowerCase();
       allAppareils.add(appliance);
   
-      // Ajouter les ingrédients sans doublons
-      for (let j = 0; j < recipe.ingredients.length; j++) {
-        const ingredientName = recipe.ingredients[j].ingredient.toLowerCase();
-        allIngredients.add(ingredientName);
-      }
+      
     }
   
     // Génération et ajout des tags
