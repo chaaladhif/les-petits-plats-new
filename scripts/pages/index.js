@@ -76,8 +76,8 @@ async function HomePage(){
   function sampleSearch(searchString) {
     const filteredRecipes = [];
     const lowersearchString = searchString.toLowerCase();
-    for (let i = 0; i < recipes.length; i++) {
-      const recipe = recipes[i];
+    for (let i = 0; i < listRecipes.length; i++) {
+      const recipe = listRecipes[i];
       const title = recipe.name.toLowerCase();
       const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).join(' ');
       const description = recipe.description.toLowerCase();
