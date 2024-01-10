@@ -1,5 +1,4 @@
 let recipes = [];
-let filtredRecipes = [];
 let listRecipes =[];
 //declarer les listes des tags
 let listTagIng=[];
@@ -48,7 +47,7 @@ async function HomePage(){
     function includesNative(tableau,string){
       for (let index = 0; index < tableau.length; index++) {
        const element = tableau[index];
-      if(element==string){
+      if(element===string){
        return true;
       }
       }
@@ -81,7 +80,6 @@ async function HomePage(){
       const title = recipe.name.toLowerCase();
       const ingredients = recipe.ingredients.map(ingredient => ingredient.ingredient.toLowerCase()).join(' ');
       const description = recipe.description.toLowerCase();
-  //includes sur chaine de caractere ne touche pas mais includes sur ingredients c'est une liste
       if (title.includes(lowersearchString.toLowerCase()) ||
        //ingredients.includes(lowersearchString.toLowerCase()) || 
        includesNative(ingredients,lowersearchString.toLowerCase())|| 
@@ -95,13 +93,16 @@ async function HomePage(){
 
 // Fonction advancedSearch utilisant someNative et everyNative
 function advancedSearch(listTagIng, listTagUst, listTagApp) {
+  let filtredRecipes = [];
 
   for (let i = 0; i < listRecipes.length; i++) {
     const recipe = listRecipes[i];
     
     const ingredientsMatch = everyNative(listTagIng, element =>
       someNative(recipe.ingredients, ingredient =>
-        includesNative(ingredient.ingredient.toLowerCase(), element.toLowerCase())
+        ingredient.ingredient.toLowerCase().includes(element.toLowerCase())
+
+        //includesNative(ingredient.ingredient.toLowerCase(), element.toLowerCase())
       )
     );
     
@@ -116,7 +117,10 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
     if (ingredientsMatch && ustensilsMatch && appareilsMatch) {
       filtredRecipes.push(recipe);
     }
+  console.log(ingredientsMatch);
+
   }
+  console.log("Résultats filtrés:", filtredRecipes);
 
   return filtredRecipes;
 }
@@ -195,7 +199,7 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
         createTagElement(tagText, tagList);
         listRecipes = advancedSearch(listTagIng, listTagUst, listTagApp);
         displayRecipes(listRecipes);
-        document.querySelector(`[data-tag="${tagText}"]`).style.display = 'none';
+        //document.querySelector(`[data-tag="${tagText}"]`).style.display = 'none';
       });
       container.appendChild(tagDiv);
     }
@@ -221,7 +225,7 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
   
     button.addEventListener('click', () => {
       tagElement.style.display = 'none';
-      document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';
+      //document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';
   
       // Suppression du tag de la liste
       const index = tagList.indexOf(tagText);
