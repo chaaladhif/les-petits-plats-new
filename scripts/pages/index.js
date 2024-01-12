@@ -117,10 +117,10 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
     if (ingredientsMatch && ustensilsMatch && appareilsMatch) {
       filtredRecipes.push(recipe);
     }
-  console.log(ingredientsMatch);
+  //console.log(ingredientsMatch);
 
   }
-  console.log("Résultats filtrés:", filtredRecipes);
+  //console.log("Résultats filtrés:", filtredRecipes);
 
   return filtredRecipes;
 }
@@ -167,6 +167,7 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
       // Ajouter les ustensiles sans doublons
       for (let j = 0; j < recipe.ustensils.length; j++) {
         const ustensil = recipe.ustensils[j].toLowerCase();
+        //add pour ajouter l'element à set
         allUstensils.add(ustensil);
       }
   
@@ -199,7 +200,7 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
         createTagElement(tagText, tagList);
         listRecipes = advancedSearch(listTagIng, listTagUst, listTagApp);
         displayRecipes(listRecipes);
-        //document.querySelector(`[data-tag="${tagText}"]`).style.display = 'none';
+        document.querySelector(`[data-tag="${tagText}"]`).style.display = 'none';
       });
       container.appendChild(tagDiv);
     }
@@ -225,7 +226,7 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
   
     button.addEventListener('click', () => {
       tagElement.style.display = 'none';
-      //document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';
+      document.querySelector(`[data-tag="${tagText}"]`).style.display = 'block';
   
       // Suppression du tag de la liste
       const index = tagList.indexOf(tagText);
