@@ -29,10 +29,16 @@ async function HomePage(){
       } 
         if (inputValue.length >= 3) {
           listRecipes = sampleSearch(inputValue);
-             displayRecipes(listRecipes,inputValue)
+          listRecipes = advancedSearch(listTagIng, listTagUst, listTagApp);
+             displayRecipes(listRecipes,inputValue);
         } else {
             // vider la recherche
-            displayRecipes(recipes)
+            if (listTagIng.length === 0 && listTagUst.length === 0 && listTagApp.length === 0) {
+            displayRecipes(recipes);
+            }
+            else {
+              displayRecipes(listRecipes);
+            }
         }
     });
     const deleteSearch = document.getElementById('deleteSearch');
@@ -237,12 +243,12 @@ function advancedSearch(listTagIng, listTagUst, listTagApp) {
       // Lancer la recherche simple et avancée
       //lancer une recherche simple 
     // Si la liste des tags est vide, lancer la recherche simple
-    if (listTagIng.length === 0 && listTagUst.length === 0 && listTagApp.length === 0) {
+    //if (listTagIng.length === 0 && listTagUst.length === 0 && listTagApp.length === 0) {
       listRecipes = sampleSearch(searchInput.value);
-      } else {
+      //} else {
       // Sinon, lancer la recherche avancée
       listRecipes = advancedSearch(listTagIng, listTagUst, listTagApp);
-    }
+    //}
       displayRecipes(listRecipes);
       //console.log(listRecipes);
   
