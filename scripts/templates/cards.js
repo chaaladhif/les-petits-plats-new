@@ -1,20 +1,19 @@
 function CardTemplate(data){
     function getCard(){
         const {
-            id,
             image,
             name,
             ingredients,
             time,
             description,
             appliance,
-            ustensils,
+            ustensils
           } = data;
           const picture = `/assets/images/${image}`;
       // Création de l'élément principal
       const containerCard=document.createElement('div');
       containerCard.setAttribute('id','recipeContainer');
-      containerCard.classList.add('relative', 'w-96','rounded-xl', 'overflow-hidden');
+      containerCard.classList.add('relative', 'w-96','rounded-xl', 'overflow-hidden', 'mb-6');
     // Création de l'image
     const img = document.createElement("img");
     img.classList.add("w-full", "object-cover", "h-52");
@@ -35,8 +34,8 @@ function CardTemplate(data){
 
     // Création des éléments de texte
     const title = document.createElement("h3");
-    title.classList.add("font-sans", "text-2xl", "leading-10");
-    title.textContent = "Titre de la recette";
+    title.classList.add("font-sans", "text-{1.1em}");
+    title.textContent = name;
     contentDiv.appendChild(title);
 
     const recipeType = document.createElement("h5");
@@ -45,7 +44,7 @@ function CardTemplate(data){
     contentDiv.appendChild(recipeType);
 
     const recipe = document.createElement("p");
-    recipe.classList.add("text-sm", "truncate", "h-24");
+    recipe.classList.add("text-sm", "text-ellipsis", "overflow-hidden", "h-24");
     recipe.textContent = description;
     contentDiv.appendChild(recipe);
 
@@ -56,23 +55,27 @@ function CardTemplate(data){
 
     // Création du conteneur flex
     const ingredientsContainer = document.createElement("div");
-    ingredientsContainer.classList.add("flex", "flex-wrap");
+    ingredientsContainer.classList.add("flex", "flex-wrap", "h-36", "my-4", "-mr-8");
     contentDiv.appendChild(ingredientsContainer);
 
     // Création des éléments flex
+    // Itération sur la liste des ingrédients
+    ingredients.forEach(ingredient => {
     const ingredientDiv = document.createElement("div");
     ingredientDiv.classList.add("flex-col", "w-1/2");
     ingredientsContainer.appendChild(ingredientDiv);
-
+  
     const ingredientName = document.createElement("p");
     ingredientName.classList.add("font-light");
-    ingredientName.textContent = "";
+    ingredientName.textContent = `${ingredient.ingredient}`;
     ingredientDiv.appendChild(ingredientName);
-
+    
     const ingredientQuantity = document.createElement("p");
     ingredientQuantity.classList.add("text-BlackLight", "font-light", "text-sm", "leading-snug");
-    ingredientQuantity.textContent = "";
+    ingredientQuantity.textContent = ingredient.quantity ? `${ingredient.quantity} ${ingredient.unit || ''}` : '';
     ingredientDiv.appendChild(ingredientQuantity);
+    });
+
     return containerCard;
     }
     
